@@ -2,7 +2,7 @@ version: '3'
 services:
   blue:
     container_name: blue
-    image: --/blue-green
+    image: ryukwankon/blue-green
     expose:
       - 8080
     ports:
@@ -11,7 +11,7 @@ services:
       - TZ=Asia/Seoul
   green:
     container_name: green
-    image: --/blue-green
+    image: ryukwankon/blue-green
     expose:
       - 8080
     ports:
