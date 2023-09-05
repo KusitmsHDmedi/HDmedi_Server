@@ -1,4 +1,4 @@
-name: Baggle Server CI/CD with Docker
+name: Kusithm HDmedi Server CI/CD with Docker
 
 on:
   push:
@@ -28,9 +28,6 @@ jobs:
         cd ./resources
         touch ./application.yml
         echo "$APPLICATION" > ./application.yml
-        mkdir firebase
-        cd ./firebase
-        echo "$FIREBASE_SDK" > ./ssang-1a9ab-firebase-adminsdk-7nen2-2c1210a093.json
       env:
         APPLICATION: ${{ secrets.APPLICATION }}
         FIREBASE_SDK: ${{ secrets.FIREBASE_SDK }}
