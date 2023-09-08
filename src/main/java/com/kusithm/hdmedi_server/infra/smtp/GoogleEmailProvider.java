@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.io.UnsupportedEncodingException;
-
 import static com.kusithm.hdmedi_server.global.error.exception.ErrorCode.UNAUTHORIZED_GOOGLE_SMTP;
 
 @Slf4j
@@ -23,19 +21,19 @@ public class GoogleEmailProvider {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine springTemplateEngine;
 
-    public void sendEmail(String toEmail, String content){
+    public void sendEmail(String toEmail, String content) {
         MimeMessage emailForm = createEmailForm(toEmail, content);
         javaMailSender.send(emailForm);
     }
 
     private MimeMessage createEmailForm(String email, String content) {
         MimeMessage message = javaMailSender.createMimeMessage();
-        try{
+        try {
             message.addRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject(EMAIL_TITLE);
             message.setFrom(SERVER_MAIL);
             message.setText(setContext(content), "utf-8", "html");
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             log.error("Failed to send Email", e);
             throw new UnauthorizedException(UNAUTHORIZED_GOOGLE_SMTP);
         }
