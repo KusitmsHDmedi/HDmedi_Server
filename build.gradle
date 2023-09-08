@@ -43,6 +43,12 @@ dependencies {
     // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // javamail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     // open feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
 
