@@ -48,6 +48,12 @@ dependencies {
 
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // open feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
 }
 
 tasks.named('test') {
