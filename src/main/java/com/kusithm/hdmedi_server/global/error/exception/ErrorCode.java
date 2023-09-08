@@ -24,6 +24,9 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN_VALUE(HttpStatus.UNAUTHORIZED, "리프레시 토큰의 값이 올바르지 않습니다."),
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 만료되었습니다. 다시 로그인해 주세요."),
     NOT_MATCH_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "일치하지 않는 리프레시 토큰입니다."),
+    INVALID_PLATFORM_TYPE(HttpStatus.UNAUTHORIZED, "올바르지 않은 로그인 방식입니다."),
+    INVALID_NAVER_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "네이버 토큰이 올바르지 않습니다."),
+    UNAUTHORIZED_GOOGLE_SMTP(HttpStatus.UNAUTHORIZED, "메일 전송을 실패했습니다."),
 
     /**
      * 403 Forbidden
