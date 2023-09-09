@@ -28,6 +28,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
