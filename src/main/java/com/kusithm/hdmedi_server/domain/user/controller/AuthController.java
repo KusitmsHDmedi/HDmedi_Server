@@ -1,6 +1,7 @@
 package com.kusithm.hdmedi_server.domain.user.controller;
 
 import com.kusithm.hdmedi_server.domain.user.dto.request.UserAuthRequestDto;
+import com.kusithm.hdmedi_server.domain.user.dto.request.UserSignUpRequestDto;
 import com.kusithm.hdmedi_server.domain.user.dto.response.UserAuthResponseDto;
 import com.kusithm.hdmedi_server.domain.user.service.AuthService;
 import com.kusithm.hdmedi_server.global.common.BaseResponse;
@@ -24,6 +25,14 @@ public class AuthController {
     public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String token,
                                                   @RequestBody final UserAuthRequestDto userAuthRequestDto){
         final UserAuthResponseDto responseDto = authService.signIn(token, userAuthRequestDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponse.of(SuccessCode.OK, responseDto));
+    }
+
+    @PostMapping("/signUp")
+    public ResponseEntity<BaseResponse<?>> signUp(@RequestHeader("Authorization") final String token,
+                                                  @RequestBody final UserSignUpRequestDto userSignUpRequestDto){
+        final UserAuthResponseDto responseDto = authService.signUp(token, userSignUpRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(BaseResponse.of(SuccessCode.OK, responseDto));
     }
