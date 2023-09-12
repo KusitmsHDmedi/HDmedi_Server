@@ -18,6 +18,8 @@ public class User {
     private Platform platform;
     private String platformId;
     private String userName;
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
 
     public static User createUser(Platform platform, String platformId, String userName){
         return User.builder()
