@@ -23,7 +23,6 @@ public class AuthController {
     @PostMapping("/signIn")
     public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String token,
                                                   @RequestBody final UserAuthRequestDto userAuthRequestDto){
-
         final UserAuthResponseDto responseDto = authService.signIn(token, userAuthRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(BaseResponse.of(SuccessCode.OK, responseDto));
