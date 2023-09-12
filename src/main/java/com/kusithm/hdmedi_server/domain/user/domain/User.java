@@ -17,11 +17,13 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Platform platform;
     private String platformId;
+    private String userName;
 
-    public static User createUser(Platform platform, String platformId){
+    public static User createUser(Platform platform, String platformId, String userName){
         return User.builder()
                 .platform(platform)
                 .platformId(platformId)
+                .userName(userName)
                 .build();
     }
 }
