@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class NaverAccessToken {
-    private static final String TOKEN_TYPE = "Bearer ";
+    private static final String TOKEN_TYPE = "";
     private String accessToken;
 
     public static NaverAccessToken of(String accessToken){

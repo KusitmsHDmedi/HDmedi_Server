@@ -8,15 +8,17 @@ import lombok.Getter;
 @Builder
 @Getter
 public class UserAuthResponseDto {
+    private Long userId;
+    private String userName;
     private String accessToken;
     private String refreshToken;
-    private Long userId;
 
     public static UserAuthResponseDto of(Token token, User user) {
         return UserAuthResponseDto.builder()
                 .accessToken(token.getAccessToken())
                 .refreshToken(token.getRefreshToken())
                 .userId(user.getId())
+                .userName(user.getUserName())
                 .build();
     }
 }
