@@ -1,15 +1,16 @@
 package com.kusithm.hdmedi_server.global.common;
 
-import lombok.Builder;
-import lombok.Data;
-
+import lombok.*;
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Getter
 @Data
 public class HDmediUser {
-    private final Long id;
-    private final boolean isGuest;
+    private Long id;
+    private Boolean isGuest;
 
-    public static HDmediUser of(Long id, boolean isGuest){
+    public static HDmediUser of(Long id, Boolean isGuest){
         return HDmediUser.builder()
                 .id(id)
                 .isGuest(isGuest)
