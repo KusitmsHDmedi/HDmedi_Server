@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.kusithm.hdmedi_server.domain.user.domain.RefreshToken.createRefreshToken;
 import static com.kusithm.hdmedi_server.global.error.exception.ErrorCode.*;
@@ -68,19 +67,19 @@ public class AuthService {
         return AuthCodeResponseDto.of(createdAuthCode.getAuthCode());
     }
 
-    public GuestSignInResponseDto geustSignIn(String authCode){
+    public GuestSignInResponseDto geustSignIn(String authCode) {
         AuthCode findAuthCode = getUserFromAuthCode(authCode);
         User findUser = getUserFromId(findAuthCode.getId());
         Token issuedToken = issueAccessTokenAndRefreshToken(findUser, Boolean.TRUE);
         return GuestSignInResponseDto.of(findUser, findUser.getChildren(), issuedToken.getAccessToken());
     }
 
-    private User getUserFromId(Long userId){
+    private User getUserFromId(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
-    private AuthCode getUserFromAuthCode(String authCode){
+    private AuthCode getUserFromAuthCode(String authCode) {
         return authCodeRepository.findByAuthCode(authCode)
                 .orElseThrow(() -> new UnauthorizedException(INVALID_AUTH_CODE));
     }
@@ -96,12 +95,12 @@ public class AuthService {
     private String createAuthCodeAtSecureRandom(SecureRandom random) {
         StringBuilder codeBuilder;
         do {
-            codeBuilder  = createAuthCodeWithStringBuilder(random);
+            codeBuilder = createAuthCodeWithStringBuilder(random);
         } while (duplicateAuthCode(codeBuilder.toString()));
         return codeBuilder.toString();
     }
 
-    private StringBuilder createAuthCodeWithStringBuilder(SecureRandom random){
+    private StringBuilder createAuthCodeWithStringBuilder(SecureRandom random) {
         StringBuilder codeBuilder = new StringBuilder();
         for (int i = 0; i < CODE_LENGTH; i++) {
             int randomIndex = random.nextInt(CHARACTERS.length());
@@ -111,7 +110,7 @@ public class AuthService {
         return codeBuilder;
     }
 
-    private Children saveChildren(User user, String name, String stringGender, LocalDate birthday){
+    private Children saveChildren(User user, String name, String stringGender, LocalDate birthday) {
         Gender enumGender = Gender.getEnumGenderFrom(stringGender);
         Children createdChildren = Children.createChildren(user, name, enumGender, birthday);
         childrenRepository.save(createdChildren);

@@ -23,7 +23,7 @@ public class Children {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public static Children createChildren(User user, String name, Gender gender, LocalDate birthday){
+    public static Children createChildren(User user, String name, Gender gender, LocalDate birthday) {
         Children createdChildren = Children.builder()
                 .name(name)
                 .gender(gender)

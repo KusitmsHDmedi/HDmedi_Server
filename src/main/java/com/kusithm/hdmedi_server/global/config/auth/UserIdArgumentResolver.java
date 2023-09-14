@@ -1,7 +1,6 @@
 package com.kusithm.hdmedi_server.global.config.auth;
 
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

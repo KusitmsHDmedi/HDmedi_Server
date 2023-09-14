@@ -29,7 +29,7 @@ public class JwtProvider {
         Token responseToken;
         try {
             responseToken = Token.of(generateToken(hDmediUser, true), generateToken(hDmediUser, false));
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             throw new UnauthorizedException(ErrorCode.NOT_MATCH_OBJECT_TYPE);
         }
         return responseToken;

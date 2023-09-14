@@ -21,7 +21,7 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Children children;
 
-    public static User createUser(Platform platform, String platformId, String userName){
+    public static User createUser(Platform platform, String platformId, String userName) {
         return User.builder()
                 .platform(platform)
                 .platformId(platformId)
@@ -29,7 +29,7 @@ public class User {
                 .build();
     }
 
-    public void addChildren(Children children){
+    public void addChildren(Children children) {
         this.children = children;
     }
 }

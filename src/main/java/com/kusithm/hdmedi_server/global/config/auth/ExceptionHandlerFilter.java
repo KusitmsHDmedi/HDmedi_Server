@@ -23,6 +23,7 @@ import java.io.IOException;
 @Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {

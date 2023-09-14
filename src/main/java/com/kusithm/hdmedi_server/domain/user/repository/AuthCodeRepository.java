@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface AuthCodeRepository extends CrudRepository<AuthCode, Long> {
     Optional<AuthCode> findByAuthCode(String AuthCode);
+
     boolean existsByAuthCode(String authCode);
 }
