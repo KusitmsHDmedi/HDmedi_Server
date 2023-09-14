@@ -1,5 +1,6 @@
 package com.kusithm.hdmedi_server.global.config.auth;
 
+import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,13 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasUserIdAnnotation = parameter.hasParameterAnnotation(AuthenticatedUserId.class);
-        boolean hasLongType = Long.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasLongType = parameter.getParameterType().equals(HDmediUser.class);
         return hasUserIdAnnotation && hasLongType;
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         return SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();

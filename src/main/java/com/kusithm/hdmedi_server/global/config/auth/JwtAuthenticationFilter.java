@@ -1,5 +1,6 @@
 package com.kusithm.hdmedi_server.global.config.auth;
 
+import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import com.kusithm.hdmedi_server.global.config.jwt.JwtProvider;
 import com.kusithm.hdmedi_server.global.error.exception.UnauthorizedException;
 import jakarta.servlet.FilterChain;
@@ -26,8 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String accessToken = getAccessTokenFrom(request);
         jwtProvider.validateAccessToken(accessToken);
-        final Long userId = jwtProvider.getSubject(accessToken);
-        setAuthentication(request, userId);
+        final HDmediUser hDmediUser = jwtProvider.getSubject(accessToken);
+        setAuthentication(request, hDmediUser);
         filterChain.doFilter(request, response);
     }
 
@@ -38,8 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         throw new UnauthorizedException(INVALID_ACCESS_TOKEN);
     }
 
-    private void setAuthentication(HttpServletRequest request, Long userId) {
-        UserAuthentication authentication = new UserAuthentication(userId, null, null);
+    private void setAuthentication(HttpServletRequest request, HDmediUser hDmediUser) {
+        UserAuthentication authentication = new UserAuthentication(hDmediUser, null, null);
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

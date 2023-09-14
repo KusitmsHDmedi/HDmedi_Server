@@ -18,14 +18,18 @@ public class User {
     private Platform platform;
     private String platformId;
     private String userName;
-    @Enumerated(value = EnumType.STRING)
-    private Gender gender;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Children children;
 
-    public static User createUser(Platform platform, String platformId, String userName){
+    public static User createUser(Platform platform, String platformId, String userName) {
         return User.builder()
                 .platform(platform)
                 .platformId(platformId)
                 .userName(userName)
                 .build();
+    }
+
+    public void addChildren(Children children) {
+        this.children = children;
     }
 }
