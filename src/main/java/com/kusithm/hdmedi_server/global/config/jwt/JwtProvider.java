@@ -1,5 +1,8 @@
 package com.kusithm.hdmedi_server.global.config.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import com.kusithm.hdmedi_server.global.error.exception.ErrorCode;
 import com.kusithm.hdmedi_server.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.*;
@@ -22,8 +25,8 @@ public class JwtProvider {
     @Value("${jwt.refresh-token-expire-time}")
     private long REFRESH_TOKEN_EXPIRE_TIME;
 
-    public Token issueToken(Long userId) {
-        return Token.of(generateToken(userId, true), generateToken(userId, false));
+    public Token issueToken(HDmediUser hDmediUser) {
+        return Token.of(generateToken(hDmediUser, true), generateToken(hDmediUser, false));
     }
 
     public void validateAccessToken(String accessToken) {
@@ -52,18 +55,19 @@ public class JwtProvider {
         }
     }
 
-    public Long getSubject(String token) {
-        return Long.valueOf(getJwtParser().parseClaimsJws(token)
+    public HDmediUser getSubject(String token) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(getJwtParser().parseClaimsJws(token)
                 .getBody()
-                .getSubject());
+                .getSubject(), HDmediUser.class);
     }
 
-    private String generateToken(Long userId, boolean isAccessToken) {
+    private String generateToken(HDmediUser hDmediUser, boolean isAccessToken) {
         final Date now = new Date();
         final Date expiration = new Date(now.getTime() + (isAccessToken ? ACCESS_TOKEN_EXPIRE_TIME : REFRESH_TOKEN_EXPIRE_TIME));
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setSubject(String.valueOf(userId))
+                .setSubject(String.valueOf(hDmediUser))
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
