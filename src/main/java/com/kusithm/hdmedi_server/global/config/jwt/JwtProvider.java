@@ -26,7 +26,13 @@ public class JwtProvider {
     private long REFRESH_TOKEN_EXPIRE_TIME;
 
     public Token issueToken(HDmediUser hDmediUser) {
-        return Token.of(generateToken(hDmediUser, true), generateToken(hDmediUser, false));
+        Token responseToken;
+        try {
+            responseToken = Token.of(generateToken(hDmediUser, true), generateToken(hDmediUser, false));
+        }catch (JsonProcessingException e){
+            throw new UnauthorizedException(ErrorCode.NOT_MATCH_OBJECT_TYPE);
+        }
+        return responseToken;
     }
 
     public void validateAccessToken(String accessToken) {
@@ -62,12 +68,13 @@ public class JwtProvider {
                 .getSubject(), HDmediUser.class);
     }
 
-    private String generateToken(HDmediUser hDmediUser, boolean isAccessToken) {
+    private String generateToken(HDmediUser hDmediUser, boolean isAccessToken) throws JsonProcessingException {
         final Date now = new Date();
+        final ObjectMapper objectMapper = new ObjectMapper();
         final Date expiration = new Date(now.getTime() + (isAccessToken ? ACCESS_TOKEN_EXPIRE_TIME : REFRESH_TOKEN_EXPIRE_TIME));
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setSubject(String.valueOf(hDmediUser))
+                .setSubject(objectMapper.writeValueAsString(hDmediUser))
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
