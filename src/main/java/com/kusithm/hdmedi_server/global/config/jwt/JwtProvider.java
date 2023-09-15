@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Base64;
@@ -33,6 +34,10 @@ public class JwtProvider {
             throw new UnauthorizedException(ErrorCode.NOT_MATCH_OBJECT_TYPE);
         }
         return responseToken;
+    }
+
+    public String deletePrefixOfToken(String token){
+        return StringUtils.delete(token, "Bearer ");
     }
 
     public void validateAccessToken(String accessToken) {
