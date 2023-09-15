@@ -24,7 +24,6 @@ public class AuthController {
 
     @GetMapping("/authCode")
     public ResponseEntity<BaseResponse<?>> createAuthCode(@AuthenticatedUserId final HDmediUser hDmediUser) {
-        System.out.println(hDmediUser.getId() + "+" + hDmediUser.getIsGuest());
         final AuthCodeResponseDto responseDto = authService.createAuthCode(hDmediUser);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(BaseResponse.of(SuccessCode.OK, responseDto));
@@ -46,10 +45,10 @@ public class AuthController {
                 .body(BaseResponse.of(SuccessCode.CREATED, responseDto));
     }
 
-    @GetMapping("/signIn/guest")
+    @PostMapping("/signIn/guest")
     public ResponseEntity<BaseResponse<?>> guestSignIn(@RequestHeader("Authorization") final String authCode) {
         final GuestSignInResponseDto responseDto = authService.geustSignIn(authCode);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(BaseResponse.of(SuccessCode.CREATED, responseDto));
     }
 }
