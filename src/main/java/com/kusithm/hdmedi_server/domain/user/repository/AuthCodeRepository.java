@@ -5,8 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface AuthCodeRepository extends CrudRepository<AuthCode, Long> {
-    Optional<AuthCode> findByAuthCode(String AuthCode);
+public interface AuthCodeRepository extends CrudRepository<AuthCode, String> {
+    Optional<AuthCode> findById(String id);
 
-    boolean existsByAuthCode(String authCode);
+    boolean existsById(String id);
 }
