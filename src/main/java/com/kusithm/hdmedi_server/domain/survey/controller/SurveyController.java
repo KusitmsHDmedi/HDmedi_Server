@@ -2,6 +2,7 @@ package com.kusithm.hdmedi_server.domain.survey.controller;
 
 import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResultDto;
+import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyResultResponseDto;
 import com.kusithm.hdmedi_server.domain.survey.service.SurveyService;
 import com.kusithm.hdmedi_server.global.common.BaseResponse;
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
@@ -24,16 +25,9 @@ public class SurveyController {
     @PostMapping
     public ResponseEntity<BaseResponse<?>> submitSurvey(@AuthenticatedUserId final HDmediUser hDmediUser,
                                                         @RequestBody final CreateSurveyDto requestDto) {
-        surveyService.processSurvey(hDmediUser, requestDto);
+       final SurveyResultResponseDto responseDto =  surveyService.processSurvey(hDmediUser, requestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(BaseResponse.of(SuccessCode.CREATED, null));
-    }
-
-    @GetMapping
-    public ResponseEntity<BaseResponse<?>> getSurveyResult() {
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(BaseResponse.of(SuccessCode.OK, null));
+                .body(BaseResponse.of(SuccessCode.CREATED, responseDto));
     }
 
     @GetMapping("/all")

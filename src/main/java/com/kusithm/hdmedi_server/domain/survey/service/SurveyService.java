@@ -6,6 +6,7 @@ import com.kusithm.hdmedi_server.domain.survey.domain.Survey;
 import com.kusithm.hdmedi_server.domain.survey.dto.request.BaseSurveyDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResultDto;
+import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyResultResponseDto;
 import com.kusithm.hdmedi_server.domain.survey.repository.SurveyRepository;
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import com.kusithm.hdmedi_server.global.common.MessageSourceProvider;
@@ -27,13 +28,15 @@ public class SurveyService {
     private final SurveyRepository surveyRepository;
     private final MessageSourceProvider messageSourceProvider;
 
-    public void processSurvey(HDmediUser hDmediUser, CreateSurveyDto createSurveyDto) {
+    public SurveyResultResponseDto processSurvey(HDmediUser hDmediUser, CreateSurveyDto createSurveyDto) {
         List<BaseSurvey> baseSurveyList = createBaseSurvey(createSurveyDto.getQuestionList());
         Respondent respondent = Respondent.createRespondent(baseSurveyList, createSurveyDto.getTotalScore());
         Survey currentSurvey = findSurvey(hDmediUser.getId());
         addRespondentSurvey(hDmediUser.getIsGuest(), currentSurvey, respondent);
         saveSurvey(currentSurvey);
+        return SurveyResultResponseDto.of(respondent.getTotalScore());
     }
+
 
     public SurveyDetailResultDto getDetailResult(HDmediUser hDmediUser, Long surveyId){
         Survey currentSurvey = findSurvey(hDmediUser.getId());
