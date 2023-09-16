@@ -34,7 +34,7 @@ public class SurveyController {
     public ResponseEntity<BaseResponse<?>> getAllSurveys(@AuthenticatedUserId final HDmediUser hDmediUser) {
         final AllSurveyResponseDto responseDto = surveyService.getAllSurvey(hDmediUser);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(BaseResponse.of(SuccessCode.OK, null));
+                .body(BaseResponse.of(SuccessCode.OK, responseDto));
     }
 
     @GetMapping("/result")
