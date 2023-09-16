@@ -25,14 +25,12 @@ public class SurveyController {
         SurveyResultResponseDto result = surveyService.processSurvey(surveyDTO);
         return ResponseEntity.ok(result);
     }
-
     // 설문 결과를 전송
     @GetMapping("/get-survey-result")
     public ResponseEntity<Object> getSurveyResult() {
         SurveyResultResponseDto result = surveyService.getSurveyResult();
         return ResponseEntity.ok(result);
     }
-
     // 모든 설문 데이터를 조회
     @GetMapping("/")
     public ResponseEntity<List<Survey>> getAllSurveys() {
