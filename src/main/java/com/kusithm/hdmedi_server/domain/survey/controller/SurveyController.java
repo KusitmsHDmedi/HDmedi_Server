@@ -1,6 +1,7 @@
 package com.kusithm.hdmedi_server.domain.survey.controller;
 
 import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
+import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResponseDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResultDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyResultResponseDto;
 import com.kusithm.hdmedi_server.domain.survey.service.SurveyService;
@@ -13,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/survey")
@@ -46,8 +45,10 @@ public class SurveyController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<BaseResponse<?>> getSurveyContent(@RequestParam final Long surveyId) {
+    public ResponseEntity<BaseResponse<?>> getSurveyContent(@AuthenticatedUserId final HDmediUser hDmediUser,
+                                                            @RequestParam final Long surveyId) {
+        final SurveyDetailResponseDto responseDto = surveyService.getSurveyDetail(hDmediUser, surveyId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(BaseResponse.of(SuccessCode.OK, null));
+                .body(BaseResponse.of(SuccessCode.OK, responseDto));
     }
 }
