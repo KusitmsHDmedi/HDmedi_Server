@@ -12,13 +12,13 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash(value = "authCode", timeToLive = 604800000)
 public class AuthCode {
     @Id
-    private String authCode;
-    private Long id;
+    private String id;
+    private Long value;
 
     public static AuthCode createAuthCode(String authCode, Long id){
         return AuthCode.builder()
-                .authCode(authCode)
-                .id(id)
+                .id(authCode)
+                .value(id)
                 .build();
     }
 }

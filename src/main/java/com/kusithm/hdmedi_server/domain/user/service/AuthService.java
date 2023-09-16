@@ -64,12 +64,12 @@ public class AuthService {
         String authCode = createAuthCodeAtSecureRandom(new SecureRandom());
         AuthCode createdAuthCode = AuthCode.createAuthCode(authCode, hDmediUser.getId());
         saveAuthCode(createdAuthCode);
-        return AuthCodeResponseDto.of(createdAuthCode.getAuthCode());
+        return AuthCodeResponseDto.of(createdAuthCode.getId());
     }
 
     public GuestSignInResponseDto geustSignIn(String authCode) {
         AuthCode findAuthCode = getUserFromAuthCode(authCode);
-        User findUser = getUserFromId(findAuthCode.getId());
+        User findUser = getUserFromId(findAuthCode.getValue());
         Token issuedToken = issueAccessTokenAndRefreshToken(findUser, Boolean.TRUE);
         return GuestSignInResponseDto.of(findUser, findUser.getChildren(), issuedToken.getAccessToken());
     }
@@ -80,7 +80,8 @@ public class AuthService {
     }
 
     private AuthCode getUserFromAuthCode(String authCode) {
-        return authCodeRepository.findByAuthCode(authCode)
+        String AuthCodeId = jwtProvider.deletePrefixOfToken(authCode);
+        return authCodeRepository.findById(AuthCodeId)
                 .orElseThrow(() -> new UnauthorizedException(INVALID_AUTH_CODE));
     }
 
@@ -89,7 +90,7 @@ public class AuthService {
     }
 
     private boolean duplicateAuthCode(String authCode) {
-        return authCodeRepository.existsByAuthCode(authCode);
+        return authCodeRepository.existsById(authCode);
     }
 
     private String createAuthCodeAtSecureRandom(SecureRandom random) {
