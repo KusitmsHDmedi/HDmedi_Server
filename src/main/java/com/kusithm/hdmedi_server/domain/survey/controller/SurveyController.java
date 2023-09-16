@@ -1,54 +1,57 @@
 package com.kusithm.hdmedi_server.domain.survey.controller;
 
-import com.kusithm.hdmedi_server.domain.survey.domain.SurveyDto;
-import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyResultResponseDto;
-import com.kusithm.hdmedi_server.domain.survey.repository.Survey;
+import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
 import com.kusithm.hdmedi_server.domain.survey.service.SurveyService;
+import com.kusithm.hdmedi_server.global.common.BaseResponse;
+import com.kusithm.hdmedi_server.global.common.HDmediUser;
+import com.kusithm.hdmedi_server.global.common.SuccessCode;
+import com.kusithm.hdmedi_server.global.config.auth.AuthenticatedUserId;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/surveys")
+@RequiredArgsConstructor
+@RequestMapping("/api/survey")
+@Controller
 public class SurveyController {
-
     private final SurveyService surveyService;
 
-    public SurveyController(SurveyService surveyService) {
-        this.surveyService = surveyService;
+    @PostMapping
+    public ResponseEntity<BaseResponse<?>> submitSurvey(@AuthenticatedUserId final HDmediUser hDmediUser,
+                                                        @RequestBody final CreateSurveyDto requestDto) {
+        surveyService.processSurvey(hDmediUser, requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponse.of(SuccessCode.CREATED, null));
     }
 
-    //설문 결과 저장
-    @PostMapping("/submit-survey")
-    public ResponseEntity<SurveyResultResponseDto> submitSurvey(@ModelAttribute SurveyDto surveyDTO) {
-        SurveyResultResponseDto result = surveyService.processSurvey(surveyDTO);
-        return ResponseEntity.ok(result);
-    }
-    // 설문 결과를 전송
-    @GetMapping("/get-survey-result")
-    public ResponseEntity<Object> getSurveyResult() {
-        SurveyResultResponseDto result = surveyService.getSurveyResult();
-        return ResponseEntity.ok(result);
-    }
-    // 모든 설문 데이터를 조회
-    @GetMapping("/")
-    public ResponseEntity<List<Survey>> getAllSurveys() {
-        List<Survey> surveys = surveyService.getAllSurveys();
-        return ResponseEntity.ok(surveys);
+    @GetMapping
+    public ResponseEntity<BaseResponse<?>> getSurveyResult() {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponse.of(SuccessCode.OK, null));
     }
 
-    // 설문 상세 조회 - 결과 조회
-    @GetMapping("/{surveyId}/result")
-    public ResponseEntity<SurveyResultResponseDto> getSurveyResult(@PathVariable Long surveyId) {
-        SurveyResultResponseDto result = surveyService.getSurveyResultById(surveyId);
-        return ResponseEntity.ok(result);
+    @GetMapping("/all")
+    public ResponseEntity<BaseResponse<?>> getAllSurveys() {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponse.of(SuccessCode.OK, null));
     }
 
-    // 설문 상세 조회 - 내용 조회
-    @GetMapping("/{surveyId}/content")
-    public ResponseEntity<Survey> getSurveyContent(@PathVariable Long surveyId) {
-        Survey survey = surveyService.getSurveyById(surveyId);
-        return ResponseEntity.ok(survey);
+    @GetMapping("/result")
+    public ResponseEntity<BaseResponse<?>> getSurveyResult(@RequestParam final Long surveyId) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponse.of(SuccessCode.OK, null));
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<BaseResponse<?>> getSurveyContent(@RequestParam final Long surveyId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponse.of(SuccessCode.OK, null));
     }
 }
