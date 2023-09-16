@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,7 +27,7 @@ public class SurveyService {
 
     public SurveyResultResponseDto processSurvey(HDmediUser hDmediUser, CreateSurveyDto createSurveyDto) {
         List<BaseSurvey> baseSurveyList = createBaseSurvey(createSurveyDto.getQuestionList());
-        Respondent respondent = Respondent.createRespondent(baseSurveyList, createSurveyDto.getTotalScore());
+        Respondent respondent = Respondent.createRespondent(baseSurveyList, createSurveyDto.getTotalScore(), LocalDate.now());
         Survey currentSurvey = findSurvey(hDmediUser.getId());
         addRespondentSurvey(hDmediUser.getIsGuest(), currentSurvey, respondent);
         saveSurvey(currentSurvey);
@@ -62,13 +63,12 @@ public class SurveyService {
         List<Respondent> respondentList = currentSurvey.getEachSurvey().getParentsSurveyList();
         List<BaseAllSurveyResponseDto> responseDtoList = IntStream.range(0, respondentList.size())
                 .mapToObj(idx -> BaseAllSurveyResponseDto.of(
-                        respondentList.get(idx).getLastModifiedDate().toLocalDate(),
+                        respondentList.get(idx).getCreateDate(),
                         Long.valueOf(idx)
                 ))
                 .collect(Collectors.toList());
         return responseDtoList;
     }
-
 
     private List<BaseSurveyResponseDto> getBaseSurveyDtoListFor(Respondent respondent) {
         return respondent.getBaseSurveyList().stream()
@@ -94,7 +94,7 @@ public class SurveyService {
 
     private Respondent getTeacherRespondent(Survey currentSurvey, int id) {
         List<Respondent> teacherSurveyList = currentSurvey.getEachSurvey().getTeacherSurveyList();
-        if (teacherSurveyList.size() <= id) return Respondent.createRespondent(null, -1);
+        if (teacherSurveyList.size() <= id) return Respondent.createRespondent(null, -1, LocalDate.now());
         return teacherSurveyList.get(id);
     }
 
