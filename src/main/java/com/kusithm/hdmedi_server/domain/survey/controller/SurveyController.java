@@ -1,6 +1,7 @@
 package com.kusithm.hdmedi_server.domain.survey.controller;
 
 import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
+import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResultDto;
 import com.kusithm.hdmedi_server.domain.survey.service.SurveyService;
 import com.kusithm.hdmedi_server.global.common.BaseResponse;
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
@@ -43,10 +44,11 @@ public class SurveyController {
     }
 
     @GetMapping("/result")
-    public ResponseEntity<BaseResponse<?>> getSurveyResult(@RequestParam final Long surveyId) {
-
+    public ResponseEntity<BaseResponse<?>> getSurveyResult(@AuthenticatedUserId final HDmediUser hDmediUser,
+                                                           @RequestParam final Long surveyId) {
+        final SurveyDetailResultDto responseDto = surveyService.getDetailResult(hDmediUser, surveyId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(BaseResponse.of(SuccessCode.OK, null));
+                .body(BaseResponse.of(SuccessCode.OK, responseDto));
     }
 
     @GetMapping("/detail")
