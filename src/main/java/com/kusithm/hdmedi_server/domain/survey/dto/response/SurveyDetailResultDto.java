@@ -11,7 +11,7 @@ public class SurveyDetailResultDto {
     private int teacherScore;
     private String teacherMessage;
 
-    public static SurveyDetailResultDto of(int parentsScore, String parentsMessage, int teacherScore, String teacherMessage){
+    public static SurveyDetailResultDto of(int parentsScore, String parentsMessage, int teacherScore, String teacherMessage) {
         return SurveyDetailResultDto.builder()
                 .parentsScore(parentsScore)
                 .parentsMessage(parentsMessage)

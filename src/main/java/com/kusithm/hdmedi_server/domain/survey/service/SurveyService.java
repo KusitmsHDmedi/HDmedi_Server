@@ -5,10 +5,7 @@ import com.kusithm.hdmedi_server.domain.survey.domain.Respondent;
 import com.kusithm.hdmedi_server.domain.survey.domain.Survey;
 import com.kusithm.hdmedi_server.domain.survey.dto.request.BaseSurveyDto;
 import com.kusithm.hdmedi_server.domain.survey.dto.request.CreateSurveyDto;
-import com.kusithm.hdmedi_server.domain.survey.dto.response.BaseSurveyResponseDto;
-import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResponseDto;
-import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyDetailResultDto;
-import com.kusithm.hdmedi_server.domain.survey.dto.response.SurveyResultResponseDto;
+import com.kusithm.hdmedi_server.domain.survey.dto.response.*;
 import com.kusithm.hdmedi_server.domain.survey.repository.SurveyRepository;
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import com.kusithm.hdmedi_server.global.common.MessageSourceProvider;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Transactional
@@ -34,6 +32,12 @@ public class SurveyService {
         saveSurvey(currentSurvey);
         String surveyResultMessage = getMessageFor(respondent.getTotalScore());
         return SurveyResultResponseDto.of(respondent.getTotalScore(), surveyResultMessage);
+    }
+
+    public AllSurveyResponseDto getAllSurvey(HDmediUser hDmediUser) {
+        Survey currentSurvey = findSurvey(hDmediUser.getId());
+        List<BaseAllSurveyResponseDto> baseAllSurveyResponseDtoList = getBaseAllSurveyResponseDtoList(currentSurvey);
+        return AllSurveyResponseDto.of(baseAllSurveyResponseDtoList);
     }
 
     public SurveyDetailResultDto getDetailResult(HDmediUser hDmediUser, Long surveyId) {
@@ -53,6 +57,18 @@ public class SurveyService {
         List<BaseSurveyResponseDto> teachersBaseSurveyResponseDtoList = getBaseSurveyDtoListFor(teacherRespondent);
         return SurveyDetailResponseDto.of(parentsBaseSurveyResponseDtoList, teachersBaseSurveyResponseDtoList);
     }
+
+    private List<BaseAllSurveyResponseDto> getBaseAllSurveyResponseDtoList(Survey currentSurvey) {
+        List<Respondent> respondentList = currentSurvey.getEachSurvey().getParentsSurveyList();
+        List<BaseAllSurveyResponseDto> responseDtoList = IntStream.range(0, respondentList.size())
+                .mapToObj(idx -> BaseAllSurveyResponseDto.of(
+                        respondentList.get(idx).getLastModifiedDate().toLocalDate(),
+                        Long.valueOf(idx)
+                ))
+                .collect(Collectors.toList());
+        return responseDtoList;
+    }
+
 
     private List<BaseSurveyResponseDto> getBaseSurveyDtoListFor(Respondent respondent) {
         return respondent.getBaseSurveyList().stream()
