@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @Data
 public class Respondent extends BaseTimeEntity {
-    private List<BaseSurvey> baseSurveyList = new ArrayList<>();
+    private List<BaseSurvey> baseSurveyList;
     private int totalScore;
 
     public static Respondent createRespondent(List<BaseSurvey> baseSurveyList, int totalScore){
