@@ -1,10 +1,8 @@
 package com.kusithm.hdmedi_server.domain.survey.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -17,7 +15,7 @@ public class Survey {
     private Long userId;
     private EachSurvey eachSurvey;
 
-    public static Survey createSurvey(Long userId){
+    public static Survey createSurvey(Long userId) {
         EachSurvey createdEachSurvey = EachSurvey.createEachSurvey();
         return Survey.builder()
                 .userId(userId)

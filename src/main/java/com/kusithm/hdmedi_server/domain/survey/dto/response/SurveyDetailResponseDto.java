@@ -11,7 +11,7 @@ public class SurveyDetailResponseDto {
     private List<BaseSurveyResponseDto> parentsSurveyList;
     private List<BaseSurveyResponseDto> teacherSurveyList;
 
-    public static SurveyDetailResponseDto of(List<BaseSurveyResponseDto> parentsSurveyList, List<BaseSurveyResponseDto> teacherSurveyList){
+    public static SurveyDetailResponseDto of(List<BaseSurveyResponseDto> parentsSurveyList, List<BaseSurveyResponseDto> teacherSurveyList) {
         return SurveyDetailResponseDto.builder()
                 .parentsSurveyList(parentsSurveyList)
                 .teacherSurveyList(teacherSurveyList)

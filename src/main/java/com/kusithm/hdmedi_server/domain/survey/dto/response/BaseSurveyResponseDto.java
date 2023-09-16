@@ -9,7 +9,7 @@ public class BaseSurveyResponseDto {
     private String question;
     private int score;
 
-    public static BaseSurveyResponseDto of(String question, int score){
+    public static BaseSurveyResponseDto of(String question, int score) {
         return BaseSurveyResponseDto.builder()
                 .question(question)
                 .score(score)
