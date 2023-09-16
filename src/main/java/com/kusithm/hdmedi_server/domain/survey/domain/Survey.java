@@ -16,4 +16,12 @@ public class Survey {
     private String id;
     private Long userId;
     private EachSurvey eachSurvey;
+
+    public static Survey createSurvey(Long userId){
+        EachSurvey createdEachSurvey = EachSurvey.createEachSurvey();
+        return Survey.builder()
+                .userId(userId)
+                .eachSurvey(createdEachSurvey)
+                .build();
+    }
 }
