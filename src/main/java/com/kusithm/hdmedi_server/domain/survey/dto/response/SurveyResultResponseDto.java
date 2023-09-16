@@ -7,10 +7,12 @@ import lombok.Getter;
 @Getter
 public class SurveyResultResponseDto {
     private int totalScore;
+    private String message;
 
-    public static SurveyResultResponseDto of(int totalScore){
+    public static SurveyResultResponseDto of(int totalScore, String message){
         return SurveyResultResponseDto.builder()
                 .totalScore(totalScore)
+                .message(message)
                 .build();
     }
 }
