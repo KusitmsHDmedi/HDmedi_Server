@@ -52,7 +52,7 @@ public class AuthService {
     public UserAuthResponseDto signUp(String token, UserSignUpRequestDto requestDto) {
         Platform platform = Platform.getEnumPlatformFrom(requestDto.getPlatform());
         String platformId = getPlatformId(token);
-        validateDuplicateUser(platform, platformId);
+//        validateDuplicateUser(platform, platformId);
         User saveUser = saveUser(platform, platformId, requestDto.getUserName());
         Children saveChildren = saveChildren(saveUser, requestDto.getChildrenName(), requestDto.getGender(), requestDto.getBirthday());
         Token issuedToken = issueAccessTokenAndRefreshToken(saveUser, Boolean.FALSE);
