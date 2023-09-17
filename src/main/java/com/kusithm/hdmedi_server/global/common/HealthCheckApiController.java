@@ -6,5 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthCheckApiController {
     @RequestMapping("/")
-    public String hdmedi() { return "HDmedi Kusithm 2조!"; }
+    public String hdmedi() {
+        return "HDmedi Kusithm 2조!";
+    }
 }

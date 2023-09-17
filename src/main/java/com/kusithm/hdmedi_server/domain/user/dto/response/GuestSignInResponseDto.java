@@ -17,7 +17,7 @@ public class GuestSignInResponseDto {
     private String accessToken;
     private String gender;
 
-    public static GuestSignInResponseDto of(User user, Children children, String accessToken){
+    public static GuestSignInResponseDto of(User user, Children children, String accessToken) {
         return GuestSignInResponseDto.builder()
                 .Id(user.getId())
                 .childName(children.getName())

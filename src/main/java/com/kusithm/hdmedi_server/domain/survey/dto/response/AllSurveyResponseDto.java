@@ -10,7 +10,8 @@ import java.util.List;
 @Builder
 public class AllSurveyResponseDto {
     private List<BaseAllSurveyResponseDto> allSurveyList;
-    public static AllSurveyResponseDto of(List<BaseAllSurveyResponseDto> allSurveyList){
+
+    public static AllSurveyResponseDto of(List<BaseAllSurveyResponseDto> allSurveyList) {
         return AllSurveyResponseDto.builder()
                 .allSurveyList(allSurveyList)
                 .build();
