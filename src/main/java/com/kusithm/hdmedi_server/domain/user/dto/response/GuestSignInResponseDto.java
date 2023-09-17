@@ -15,6 +15,7 @@ public class GuestSignInResponseDto {
     private String parentsName;
     private LocalDate birthday;
     private String accessToken;
+    private String gender;
 
     public static GuestSignInResponseDto of(User user, Children children, String accessToken){
         return GuestSignInResponseDto.builder()
@@ -22,7 +23,9 @@ public class GuestSignInResponseDto {
                 .childName(children.getName())
                 .parentsName(user.getUserName())
                 .birthday(children.getBirthday())
+                .gender(String.valueOf(user.getChildren()))
                 .accessToken(accessToken)
                 .build();
+
     }
 }
