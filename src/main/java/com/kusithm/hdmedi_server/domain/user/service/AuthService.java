@@ -14,7 +14,6 @@ import com.kusithm.hdmedi_server.domain.user.repository.UserRepository;
 import com.kusithm.hdmedi_server.global.common.HDmediUser;
 import com.kusithm.hdmedi_server.global.config.jwt.JwtProvider;
 import com.kusithm.hdmedi_server.global.config.jwt.Token;
-import com.kusithm.hdmedi_server.global.error.exception.ConflictException;
 import com.kusithm.hdmedi_server.global.error.exception.EntityNotFoundException;
 import com.kusithm.hdmedi_server.global.error.exception.UnauthorizedException;
 import jakarta.transaction.Transactional;
@@ -25,7 +24,8 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 
 import static com.kusithm.hdmedi_server.domain.user.domain.RefreshToken.createRefreshToken;
-import static com.kusithm.hdmedi_server.global.error.exception.ErrorCode.*;
+import static com.kusithm.hdmedi_server.global.error.exception.ErrorCode.INVALID_AUTH_CODE;
+import static com.kusithm.hdmedi_server.global.error.exception.ErrorCode.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Transactional
@@ -52,7 +52,6 @@ public class AuthService {
     public UserAuthResponseDto signUp(String token, UserSignUpRequestDto requestDto) {
         Platform platform = Platform.getEnumPlatformFrom(requestDto.getPlatform());
         String platformId = getPlatformId(token);
-        validateDuplicateUser(platform, platformId);
         User saveUser = saveUser(platform, platformId, requestDto.getUserName());
         Children saveChildren = saveChildren(saveUser, requestDto.getChildrenName(), requestDto.getGender(), requestDto.getBirthday());
         Token issuedToken = issueAccessTokenAndRefreshToken(saveUser, Boolean.FALSE);
@@ -142,8 +141,4 @@ public class AuthService {
         refreshTokenRepository.save(createRefreshToken(user.getId(), refreshToken));
     }
 
-    private void validateDuplicateUser(Platform platform, String platformId) {
-        if (userRepository.existsUserByPlatformAndPlatformId(platform, platformId))
-            throw new ConflictException(DUPLICATE_USER);
-    }
 }

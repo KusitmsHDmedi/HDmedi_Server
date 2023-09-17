@@ -36,7 +36,7 @@ public class JwtProvider {
         return responseToken;
     }
 
-    public String deletePrefixOfToken(String token){
+    public String deletePrefixOfToken(String token) {
         return StringUtils.delete(token, "Bearer ");
     }
 

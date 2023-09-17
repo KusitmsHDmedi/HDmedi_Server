@@ -15,14 +15,17 @@ public class GuestSignInResponseDto {
     private String parentsName;
     private LocalDate birthday;
     private String accessToken;
+    private String gender;
 
-    public static GuestSignInResponseDto of(User user, Children children, String accessToken){
+    public static GuestSignInResponseDto of(User user, Children children, String accessToken) {
         return GuestSignInResponseDto.builder()
                 .Id(user.getId())
                 .childName(children.getName())
                 .parentsName(user.getUserName())
                 .birthday(children.getBirthday())
+                .gender(children.getGender().toString())
                 .accessToken(accessToken)
                 .build();
+
     }
 }

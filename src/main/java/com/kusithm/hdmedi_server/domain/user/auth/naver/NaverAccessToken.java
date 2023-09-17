@@ -12,13 +12,13 @@ public class NaverAccessToken {
     private static final String TOKEN_TYPE = "";
     private String accessToken;
 
-    public static NaverAccessToken of(String accessToken){
+    public static NaverAccessToken of(String accessToken) {
         return NaverAccessToken.builder().
                 accessToken(accessToken).
                 build();
     }
 
-    public String getAccessTokenWithTokenType(){
+    public String getAccessTokenWithTokenType() {
         return TOKEN_TYPE + accessToken;
     }
 }

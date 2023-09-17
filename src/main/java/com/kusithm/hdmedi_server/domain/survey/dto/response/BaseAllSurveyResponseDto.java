@@ -8,12 +8,12 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class BaseAllSurveyResponseDto {
-    private LocalDate date;
+    private String date;
     private Long surveyId;
 
     public static BaseAllSurveyResponseDto of(LocalDate date, Long surveyId) {
         return BaseAllSurveyResponseDto.builder()
-                .date(date)
+                .date(date.toString())
                 .surveyId(surveyId)
                 .build();
     }

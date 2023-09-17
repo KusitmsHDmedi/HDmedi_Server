@@ -25,7 +25,7 @@ public class SurveyController {
     @PostMapping
     public ResponseEntity<BaseResponse<?>> submitSurvey(@AuthenticatedUserId final HDmediUser hDmediUser,
                                                         @RequestBody final CreateSurveyDto requestDto) {
-       final SurveyResultResponseDto responseDto =  surveyService.processSurvey(hDmediUser, requestDto);
+        final SurveyResultResponseDto responseDto = surveyService.processSurvey(hDmediUser, requestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(BaseResponse.of(SuccessCode.CREATED, responseDto));
     }

@@ -15,7 +15,7 @@ public class AuthCode {
     private String id;
     private Long value;
 
-    public static AuthCode createAuthCode(String authCode, Long id){
+    public static AuthCode createAuthCode(String authCode, Long id) {
         return AuthCode.builder()
                 .id(authCode)
                 .value(id)

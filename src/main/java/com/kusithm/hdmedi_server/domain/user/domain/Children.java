@@ -28,6 +28,7 @@ public class Children {
                 .name(name)
                 .gender(gender)
                 .birthday(birthday)
+                .user(user)
                 .build();
         user.addChildren(createdChildren);
         return createdChildren;
