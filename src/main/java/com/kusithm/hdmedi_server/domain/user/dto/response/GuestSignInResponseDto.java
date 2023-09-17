@@ -23,7 +23,7 @@ public class GuestSignInResponseDto {
                 .childName(children.getName())
                 .parentsName(user.getUserName())
                 .birthday(children.getBirthday())
-                .gender(String.valueOf(user.getChildren()))
+                .gender(children.getGender().toString())
                 .accessToken(accessToken)
                 .build();
 
